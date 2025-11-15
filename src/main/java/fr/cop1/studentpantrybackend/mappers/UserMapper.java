@@ -53,6 +53,11 @@ public class UserMapper {
 //            user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
 //        }
 
+        // we store password as plain text for now (to be fixed later)
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPasswordHash(dto.getPassword());
+        }
+
         return user;
     }
 

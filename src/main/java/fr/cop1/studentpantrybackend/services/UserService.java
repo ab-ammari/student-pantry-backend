@@ -35,7 +35,7 @@ public interface UserService {
     UserDTO verifyStudentId(Long id) throws ResourceNotFoundException;
 
     // Méthodes d'authentification
-    UserDTO login(String email, String password);
+    UserDTO login(String email, String password) throws ResourceNotFoundException;
     void updateLastLogin(Long id) throws ResourceNotFoundException;
     void changePassword(Long id, String oldPassword, String newPassword);
     void resetPassword(String email);

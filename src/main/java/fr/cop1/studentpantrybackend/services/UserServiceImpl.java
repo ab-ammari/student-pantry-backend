@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements  UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final NotificationService notificationService;
 
     @Override
@@ -213,12 +213,7 @@ public class UserServiceImpl implements  UserService {
     }
 
     @Override
-    public UserDTO login(String email, String password) {
-        return null;
-    }
-
-    /*@Override
-    public UserDTO login(String email, String password) {
+    public UserDTO login(String email, String password) throws ResourceNotFoundException {
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPasswordHash())) {
@@ -236,7 +231,7 @@ public class UserServiceImpl implements  UserService {
         updateLastLogin(user.getId());
 
         return userMapper.toDTO(user);
-    }*/
+    }
 
     @Override
     public void updateLastLogin(Long id) throws ResourceNotFoundException {
