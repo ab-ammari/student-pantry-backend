@@ -5,6 +5,7 @@ import fr.cop1.studentpantrybackend.entities.User;
 import fr.cop1.studentpantrybackend.enums.UserRole;
 import fr.cop1.studentpantrybackend.enums.UserStatus;
 import fr.cop1.studentpantrybackend.exceptions.EmailAlreadyExistsException;
+import fr.cop1.studentpantrybackend.exceptions.InvalidCredentialsException;
 import fr.cop1.studentpantrybackend.exceptions.ResourceNotFoundException;
 import fr.cop1.studentpantrybackend.mappers.UserMapper;
 import fr.cop1.studentpantrybackend.repositories.UserRepository;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -213,7 +216,7 @@ public class UserServiceImpl implements  UserService {
     }
 
     @Override
-    public UserDTO login(String email, String password) throws ResourceNotFoundException {
+    public UserDTO login(String email, String password) throws ResourceNotFoundException, InvalidCredentialsException {
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPasswordHash())) {

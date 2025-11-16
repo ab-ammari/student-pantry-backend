@@ -4,6 +4,7 @@ import fr.cop1.studentpantrybackend.dtos.UserDTO;
 import fr.cop1.studentpantrybackend.enums.UserRole;
 import fr.cop1.studentpantrybackend.enums.UserStatus;
 import fr.cop1.studentpantrybackend.exceptions.EmailAlreadyExistsException;
+import fr.cop1.studentpantrybackend.exceptions.InvalidCredentialsException;
 import fr.cop1.studentpantrybackend.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ public interface UserService {
     UserDTO verifyStudentId(Long id) throws ResourceNotFoundException;
 
     // Méthodes d'authentification
-    UserDTO login(String email, String password) throws ResourceNotFoundException;
+    UserDTO login(String email, String password) throws ResourceNotFoundException, InvalidCredentialsException;
     void updateLastLogin(Long id) throws ResourceNotFoundException;
     void changePassword(Long id, String oldPassword, String newPassword);
     void resetPassword(String email);

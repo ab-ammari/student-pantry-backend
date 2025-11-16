@@ -6,6 +6,8 @@ import fr.cop1.studentpantrybackend.dtos.LoginResponse;
 import fr.cop1.studentpantrybackend.dtos.PasswordResetRequest;
 import fr.cop1.studentpantrybackend.dtos.UserDTO;
 import fr.cop1.studentpantrybackend.exceptions.EmailAlreadyExistsException;
+import fr.cop1.studentpantrybackend.exceptions.InvalidCredentialsException;
+import fr.cop1.studentpantrybackend.exceptions.ResourceNotFoundException;
 import fr.cop1.studentpantrybackend.services.UserService;
 import fr.cop1.studentpantrybackend.web.ApiConstants;
 import fr.cop1.studentpantrybackend.web.ApiResponse;
@@ -37,7 +39,7 @@ public class AuthController {
      * Authentifier un utilisateur
      */
     @PostMapping(ApiConstants.LOGIN_PATH)
-    public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) throws InvalidCredentialsException, ResourceNotFoundException {
         // Authentifier l'utilisateur
         UserDTO authenticatedUser = userService.login(
                 loginRequest.getEmail(),
