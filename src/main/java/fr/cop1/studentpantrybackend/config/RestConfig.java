@@ -21,12 +21,13 @@ public class RestConfig implements WebMvcConfigurer {
     public CorsFilter corsFilter() {
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        // Modifier ceci en production pour limiter aux origines autorisées
-        config.setAllowedOrigins(Collections.singletonList("*"));
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
+        // Configuration pour le développement - spécifier l'origine exacte
+        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:4200"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"));
         config.setAllowedMethods(Arrays.asList(
                 HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name(), HttpMethod.PATCH.name(), HttpMethod.OPTIONS.name()));
+        config.setExposedHeaders(Arrays.asList("Authorization"));
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

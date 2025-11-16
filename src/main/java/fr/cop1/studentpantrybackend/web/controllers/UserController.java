@@ -29,7 +29,7 @@ import java.util.Map;
 @RequestMapping(ApiConstants.USERS_ENDPOINT)
 @RequiredArgsConstructor
 @Validated
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class UserController {
 
     private final UserService userService;
@@ -39,6 +39,7 @@ public class UserController {
      */
     @GetMapping
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<Page<UserDTO>>> getAllUsers(
             @RequestParam(value = ApiConstants.PAGE_PARAM, defaultValue = "0") int page,
             @RequestParam(value = ApiConstants.SIZE_PARAM, defaultValue = "20") int size,
@@ -61,6 +62,7 @@ public class UserController {
      */
     @GetMapping(ApiConstants.USER_ID_PATH)
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN') or @userSecurity.isCurrentUser(#id)")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO user = userService.findById(id);
         return ResponseEntity.ok(ApiResponse.success(user));
@@ -71,6 +73,7 @@ public class UserController {
      */
     @GetMapping("/role/{role}")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<List<UserDTO>>> getUsersByRole(@PathVariable UserRole role) {
         List<UserDTO> users = userService.findByRole(role);
         return ResponseEntity.ok(ApiResponse.success("Utilisateurs avec le rôle " + role, users));
@@ -81,6 +84,7 @@ public class UserController {
      */
     @PostMapping
     //@PreAuthorize("hasRole('ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> createUser(@Valid @RequestBody UserDTO userDTO) throws EmailAlreadyExistsException {
         UserDTO createdUser = userService.save(userDTO);
         return new ResponseEntity<>(ApiResponse.success("Utilisateur créé avec succès", createdUser), HttpStatus.CREATED);
@@ -91,6 +95,7 @@ public class UserController {
      */
     @PutMapping(ApiConstants.USER_ID_PATH)
     //@PreAuthorize("hasRole('ADMIN') or @userSecurity.isCurrentUser(#id)")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) throws EmailAlreadyExistsException, ResourceNotFoundException {
         UserDTO updatedUser = userService.update(id, userDTO);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur mis à jour avec succès", updatedUser));
@@ -101,6 +106,7 @@ public class UserController {
      */
     @DeleteMapping(ApiConstants.USER_ID_PATH)
     //@PreAuthorize("hasRole('ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) throws ResourceNotFoundException {
         userService.delete(id);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur supprimé avec succès", null));
@@ -111,6 +117,7 @@ public class UserController {
      */
     @PutMapping("/{id}/approve")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> approveUser(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO approvedUser = userService.approveUser(id);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur approuvé", approvedUser));
@@ -121,6 +128,7 @@ public class UserController {
      */
     @PutMapping("/{id}/reject")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> rejectUser(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO rejectedUser = userService.rejectUser(id);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur rejeté", rejectedUser));
@@ -131,6 +139,7 @@ public class UserController {
      */
     @PutMapping("/{id}/block")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> blockUser(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO blockedUser = userService.blockUser(id);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur bloqué", blockedUser));
@@ -141,6 +150,7 @@ public class UserController {
      */
     @PutMapping("/{id}/activate")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> activateUser(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO activatedUser = userService.activateUser(id);
         return ResponseEntity.ok(ApiResponse.success("Utilisateur activé", activatedUser));
@@ -151,6 +161,7 @@ public class UserController {
      */
     @PutMapping("/{id}/verify-student")
     //@PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> verifyStudentId(@PathVariable Long id) throws ResourceNotFoundException {
         UserDTO verifiedUser = userService.verifyStudentId(id);
         return ResponseEntity.ok(ApiResponse.success("Identité étudiante vérifiée", verifiedUser));
@@ -161,6 +172,7 @@ public class UserController {
      */
     @PutMapping("/{id}/change-password")
     //@PreAuthorize("hasRole('ADMIN') or @userSecurity.isCurrentUser(#id)")
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<Void>> changePassword(
             @PathVariable Long id,
             @RequestParam String oldPassword,

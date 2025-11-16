@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.HashMap;
@@ -31,6 +28,7 @@ import java.util.Map;
 @RequestMapping(ApiConstants.AUTH_ENDPOINT)
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AuthController {
 
     private final UserService userService;
@@ -39,6 +37,7 @@ public class AuthController {
      * Authentifier un utilisateur
      */
     @PostMapping(ApiConstants.LOGIN_PATH)
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest loginRequest) throws InvalidCredentialsException, ResourceNotFoundException {
         // Authentifier l'utilisateur
         UserDTO authenticatedUser = userService.login(
@@ -60,6 +59,7 @@ public class AuthController {
      * Enregistrer un nouvel utilisateur
      */
     @PostMapping(ApiConstants.REGISTER_PATH)
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<UserDTO>> register(@Valid @RequestBody UserDTO userDTO) throws EmailAlreadyExistsException {
         UserDTO registeredUser = userService.register(userDTO);
         return new ResponseEntity<>(ApiResponse.success("Inscription réussie", registeredUser), HttpStatus.CREATED);
@@ -69,6 +69,7 @@ public class AuthController {
      * Réinitialiser le mot de passe d'un utilisateur
      */
     @PostMapping(ApiConstants.RESET_PASSWORD_PATH)
+    @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
     public ResponseEntity<ApiResponse<Void>> resetPassword(@Valid @RequestBody PasswordResetRequest resetRequest) {
         userService.resetPassword(resetRequest.getEmail());
         return ResponseEntity.ok(ApiResponse.success("Un email de réinitialisation a été envoyé", null));
